@@ -1,0 +1,61 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.7' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
+}
+
+group = 'pt.edequinox'
+version = '0.0.1-SNAPSHOT'
+description = 'RESTful API that provides the basic functionalities of a calculator.'
+
+// Root project does not apply Spring Boot; subprojects will apply it individually.
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	sourceCompatibility = '17'
+	targetCompatibility = '17'
+	version = '0.0.1-SNAPSHOT'
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		implementation 'org.slf4j:slf4j-api'
+		implementation 'ch.qos.logback:logback-classic'
+
+		implementation 'org.springframework.kafka:spring-kafka'
+
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'org.springframework.kafka:spring-kafka-test'
+	}
+
+	jar {
+        enabled = false
+    }
+
+}
+
+// Use the system JDK for compilation. If you want Gradle to auto-download a
+// specific JDK toolchain, configure toolchain repositories or re-add a toolchain
+// block and enable auto-download in `gradle.properties`.
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+
+
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,13 @@
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    // Ensure Jackson databind is available for Kafka JSON (JsonDeserializer)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    }
+
+bootJar {
+    mainClass = 'pt.edequinox.CalculatorApplication'
+    archiveFileName = 'calculator.jar'
+}

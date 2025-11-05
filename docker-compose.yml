@@ -1,0 +1,82 @@
+version: '3.8'
+
+# Define a network para os serviços se comunicarem
+networks:
+  calculator-network:
+    driver: bridge
+
+services:
+
+  # 1. Zookeeper Service
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      # Não precisa de volumes ou configs complexas para o desafio
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - calculator-network
+
+  # 2. Kafka Broker Service
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper 
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      
+      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - calculator-network
+
+  # 3. Rest API Module
+  rest-api:
+    build:
+      context: ./rest 
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/rest.jar
+    container_name: rest-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    volumes:
+      - ./logs/rest:/app/logs
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    networks:
+      - calculator-network
+
+  # 4. Calculator Module
+  calculator-app:
+    build:
+      context: ./calculator
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/calculator.jar
+    container_name: calculator-app
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
+    volumes:
+      - ./logs/calculator:/app/logs
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    networks:
+      - calculator-network
