@@ -1,0 +1,101 @@
+body {
+    display: flex; /* Usa flexbox para centrar */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    min-height: 100vh; /* Ocupa a altura total do ecrã */
+    margin: 0;
+    background-color: #f2f2f2; /* Fundo geral da página (pode ser cinza claro) */
+    font-family: 'Helvetica Neue', sans-serif; /* Fonte similar à do iOS */
+}
+
+.calculator {
+    width: 320px; /* Largura da calculadora (pode ajustar) */
+    background-color: #000; /* Fundo preto para a calculadora */
+    border-radius: 30px; /* Cantos arredondados do corpo da calculadora */
+    padding: 20px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.7); /* Sombra mais intensa */
+}
+
+.display {
+    color: #fff; /* Texto branco */
+    font-size: 4em; /* Tamanho grande para o número principal */
+    text-align: right;
+    padding: 10px 10px 20px 10px; /* Espaçamento interno */
+    overflow: hidden; /* Para lidar com números longos */
+    /* background-color: transparent; /* O display não tem fundo visível distinto */
+    height: 100px; /* Altura fixa para o display */
+    display: flex;
+    align-items: flex-end; /* Alinha o texto na parte de baixo do display */
+    justify-content: flex-end; /* Alinha o texto à direita */
+    word-wrap: break-word; /* Quebra palavras longas */
+    white-space: normal; /* Permite que o texto se ajuste */
+}
+
+.previous-operation { /* Para a operação anterior, se quiser adicionar */
+    font-size: 1.5em;
+    color: #a0a0a0; /* Cinza claro para o texto da operação anterior */
+    height: 30px; /* Altura para a linha da operação anterior */
+    margin-bottom: 5px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+    gap: 12px; /* Espaço entre os botões */
+}
+
+.button {
+    width: 70px; /* Largura e altura para fazer círculos */
+    height: 70px;
+    border-radius: 50%; /* Faz os botões circulares */
+    border: none;
+    font-size: 1.8em; /* Tamanho da fonte dos botões */
+    color: #fff; /* Texto branco nos botões */
+    background-color: #333; /* Fundo cinzento escuro para a maioria dos botões */
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    display: flex; /* Para centrar o texto */
+    justify-content: center;
+    align-items: center;
+    outline: none; /* Remove o contorno ao focar */
+}
+
+.button:hover {
+    background-color: #555; /* Um pouco mais claro ao passar o mouse */
+}
+
+/* Cores específicas para os botões de função */
+.function-button {
+    background-color: #a6a6a6; /* Cinza claro para AC, +/-, % */
+    color: #000; /* Texto preto para esses botões */
+}
+
+.function-button:hover {
+    background-color: #bfbfbf;
+}
+
+/* Cores e forma para os botões de operador */
+.operator-button {
+    background-color: #ff9500; /* Laranja para operadores */
+}
+
+.operator-button:hover {
+    background-color: #e08b00;
+}
+
+/* Estilo para o botão 0 */
+.button.zero {
+    grid-column: span 2; /* Faz o botão 0 ocupar 2 colunas */
+    width: auto; /* Permite que a largura se ajuste ao grid */
+    border-radius: 35px; /* Cantos arredondados, mas alongado */
+    justify-content: flex-start; /* Alinha o "0" à esquerda */
+    padding-left: 25px; /* Espaçamento para o "0" */
+}
+
+.button.equals { /* O botão de igual é um operador também, mas tem uma classe específica para sobrepor */
+    background-color: #ff9500; /* Laranja */
+}
+
+.button.equals:hover {
+    background-color: #e08b00;
+}

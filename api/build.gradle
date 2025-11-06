@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-api'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+jar {
+    enabled = true
+}
+
+// This project is a library/module without its own Spring Boot application
+// Disable the bootable jar task (added by the root project's subprojects block)
+bootJar {
+    enabled = false
+}

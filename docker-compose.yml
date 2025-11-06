@@ -80,3 +80,16 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     networks:
       - calculator-network
+
+  # 5. Frontend Module
+  frontend-web:
+    build:
+      context: ./frontend  # Usa a pasta 'frontend'
+      dockerfile: Dockerfile
+    container_name: frontend-web
+    ports:
+      - "3000:80"         # Mapeia a porta 80 do container para a porta 3000 do host
+    depends_on:
+      - rest-api          # O frontend precisa do backend para funcionar
+    networks:
+      - calculator-network
