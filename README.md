@@ -5,6 +5,7 @@ This repository is a multi-module Java application that implements a calculator 
 Key technologies
 - Java (Gradle)
 - Spring Boot 3 (Spring Web, Spring Kafka)
+- React (Vite) and Nginx
 - Kafka (topics used for requests and results)
 - Logback for logging
 - Docker / Docker Compose for containerized execution
